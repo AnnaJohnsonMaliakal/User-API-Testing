@@ -1,0 +1,320 @@
+{
+  "info": {
+    "_postman_id": "91dcf9f9-c285-43cf-9291-ef8f580535a1",
+    "name": "User API Testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57467894",
+    "_collection_link": "https://go.postman.co/collection/57467894-91dcf9f9-c285-43cf-9291-ef8f580535a1?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get All Users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is less than 200ms\", function () {\r",
+              "\tpm.expect(pm.response.responseTime).to.be.below(500);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response body is not empty\", function () {\r",
+              "\tpm.expect(pm.response.json()).to.not.be.empty;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is json\", function ()\t{\r",
+              "\tpm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_Url}}/users",
+          "host": [
+            "{{base_Url}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get User By ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "const response = pm.response.json();\r",
+              "\r",
+              "pm.test(\"User ID is 1\", function () {\r",
+              "    pm.expect(response.id).to.eql(1);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_Url}}/users/1",
+          "host": [
+            "{{base_Url}}"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "const responseJson = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Response contains the correct name\", function () {\r",
+              "  pm.expect(responseJson.name).to.eql(\"Anna Johnson\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response contains User ID\", function(){\r",
+              "\tpm.expect(responseJson.id).to.exist;\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Anna Johnson\",\r\n    \"username\": \"anna\",\r\n    \"email\": \"anna@example.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_Url}}/users",
+          "host": [
+            "{{base_Url}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "  pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is less than 1000ms\", function () {\r",
+              "  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has correct content type\", function() {\r",
+              "\tpm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response body contains the correct name\", function () {\r",
+              "  pm.expect(pm.response.json().name).to.eql(\"Anna Updated\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response body contains Updated email\", function () {\r",
+              "\tpm.expect(pm.response.json().email).to.eql(\"anna.updated@example.com\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Anna Updated\",\r\n\t\"username\": \"anna_updated\",\r\n  \"email\": \"anna.updated@example.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_Url}}/users/1",
+          "host": [
+            "{{base_Url}}"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"response body is empty\", function () {\r",
+              "    pm.expect(pm.response.text()).to.eql(\"{}\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Anna Updated\",\r\n\t\"username\": \"anna_updated\",\r\n  \"email\": \"anna.updated@example.com\"\r\n}"
+        },
+        "url": {
+          "raw": "{{base_Url}}/users/1",
+          "host": [
+            "{{base_Url}}"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Invalid User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response body is empty\", function () {\r",
+              "    pm.expect(pm.response.text()).to.eql(\"{}\");\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Anna Updated\",\r\n\t\"username\": \"anna_updated\",\r\n  \"email\": \"anna.updated@example.com\"\r\n}"
+        },
+        "url": {
+          "raw": "{{base_Url}}/users/9999",
+          "host": [
+            "{{base_Url}}"
+          ],
+          "path": [
+            "users",
+            "9999"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_Url",
+      "value": ""
+    }
+  ]
+}
